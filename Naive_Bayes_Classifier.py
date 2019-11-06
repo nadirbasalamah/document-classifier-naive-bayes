@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[15]:
+# In[73]:
 
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
@@ -10,7 +10,7 @@ import re
 import pandas as pd
 
 
-# In[16]:
+# In[74]:
 
 stemm = StemmerFactory()
 stemmer = stemm.create_stemmer()
@@ -18,21 +18,21 @@ stop = StopWordRemoverFactory()
 stopwords = stop.get_stop_words()
 
 
-# In[17]:
+# In[75]:
 
 data = pd.read_csv("D:\dataset_textmining\dataset.csv", encoding = "ISO-8859-1")
 
 
-# ### Get sinopsis
+# ### Get komentar
 
-# In[18]:
+# In[76]:
 
-desc = data.loc[:, "Komentar"]
+desc = data.loc[:,'Komentar']
 
 
-# ### Filtering kata simbol
+# ### Menghapus berbagai simbol pada kata
 
-# In[19]:
+# In[77]:
 
 for i, val in enumerate(desc):
     desc[i] = (
@@ -49,7 +49,7 @@ for i, val in enumerate(desc):
 
 # ### Functions
 
-# In[20]:
+# In[78]:
 
 def tokenisasi_kata(sentences):
     tokenizing = []
@@ -84,29 +84,10 @@ def getFreq(dicti, word):
 
     return dicti
 
-# def hitungIDF(listdoc):
-#     idDict={}
-#     N = len(listdoc)
-#     idDict = dict.fromkeys(listdoc[0].keys(),0)
-#     for doc in listdoc:
-#         for word, freq in doc.items():
-#             if freq >0:
-#                 idDict[word]+=1
-#     for word, freq in idDict.items():
-#         idDict[word] = math.log(N/float(freq))
-    
-#     return idDict
-
-# def hitungTFIDF(tf,idfs):
-#     tfidf={}
-#     for word, freq in tf.items():
-#         tfidf[word]= freq * idfs[word]
-#     return tfidf
-
 
 # ### Tokenisasi
 
-# In[21]:
+# In[79]:
 
 word_tokenized = tokenisasi_kata(desc)
 print("Tokenizing :", word_tokenized, "\n")
@@ -114,20 +95,20 @@ print("Tokenizing :", word_tokenized, "\n")
 
 # ### Filtering stop words
 
-# In[22]:
+# In[80]:
 
 print("filtering : ", memfilter(word_tokenized), "\n")
 
 
 # ### Stemming + filter stop words. Sisa kata unik
 
-# In[23]:
+# In[81]:
 
 wordset = set(menstem((word_tokenized)))
 print("stemming : ", wordset, "\n")
 
 
-# In[24]:
+# In[82]:
 
 sorted(wordset)
 
@@ -136,7 +117,7 @@ sorted(wordset)
 
 # ### Mengumpulkan seluruh kata dalam kalimat pada list
 
-# In[25]:
+# In[83]:
 
 sentences = []
 words = []
@@ -151,7 +132,7 @@ for i, val in enumerate(sentences):
 
 # ### Menghitung frekuensi kata unik pada dokumen
 
-# In[26]:
+# In[84]:
 
 for i, val in enumerate(sentences):    
     freqs.append(getFreq(dict.fromkeys(wordset, 0), menstem(words[i])))
@@ -159,7 +140,7 @@ for i, val in enumerate(sentences):
 
 # ### TF Tables
 
-# In[27]:
+# In[88]:
 
 print("TF")
 for i, val in enumerate(freqs):
@@ -168,36 +149,14 @@ for i, val in enumerate(freqs):
 tf = pd.DataFrame(freqs)
 print(tf)
 print('\n')
+# print(tf.columns.values)
 
 
-# ## Menghitung IDF
+# ### Menghitung nilai |V| dan jumlah seluruh kata pada kategori positif dan negatif
 
-# In[28]:
+# In[86]:
 
-# idfs = hitungIDF(freqs)
-
-
-# In[29]:
-
-# print('IDF', idfs)
-
-
-# ## Menghitung TFIDF
-
-# In[30]:
-
-# tfidf = []
-
-# for i, val in enumerate(freqs):
-#     tfidf.append(hitungTFIDF(freqs[i], idfs))
-
-
-# In[31]:
-
-# pd.DataFrame(tfidf)
-
-
-# In[ ]:
-
-
+verbs = len(wordset)
+# desc1 = data.loc[:,['Komentar','Hasil Akhir']]
+# print(desc1)
 
