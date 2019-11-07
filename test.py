@@ -15,3 +15,6 @@ df = pd.DataFrame(dataset)
 dataset_positif = df.loc[df["Hasil Akhir"] == "Positif"]["Komentar"].values.tolist()
 
 dataset_negatif = df.loc[df["Hasil Akhir"] == "Negatif"]["Komentar"].values.tolist()
+
+print(len(dataset_positif))
+print(len(dataset_negatif))

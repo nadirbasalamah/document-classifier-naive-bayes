@@ -160,3 +160,44 @@ verbs = len(wordset)
 # desc1 = data.loc[:,['Komentar','Hasil Akhir']]
 # print(desc1)
 
+#pre processing kata dalam kategori positif
+dataset = data.loc[:, ["Komentar","Hasil Akhir"]]
+df = pd.DataFrame(dataset)
+dataset_positif = df.loc[df["Hasil Akhir"] == "Positif"]["Komentar"].values.tolist()
+
+for i, val in enumerate(dataset_positif):
+    dataset_positif[i] = (
+        val.replace(";", "")
+        .replace(",", "")
+        .replace(".", "")
+        .replace("?", "")
+        .replace("-", " ")
+        .replace("/", " ")
+        .replace("(", "")
+        .replace(")", "")
+    )
+
+word_tokenized_positif = tokenisasi_kata(dataset_positif)
+filtered_word_positif = memfilter(word_tokenized_positif)
+wordset_positif = menstem((word_tokenized_positif))
+count_positif = len(wordset_positif)
+print(count_positif)
+#pre processing kata dalam kategori negatif
+dataset_negatif = df.loc[df["Hasil Akhir"] == "Negatif"]["Komentar"].values.tolist()
+for i, val in enumerate(dataset_negatif):
+    dataset_negatif[i] = (
+        val.replace(";", "")
+        .replace(",", "")
+        .replace(".", "")
+        .replace("?", "")
+        .replace("-", " ")
+        .replace("/", " ")
+        .replace("(", "")
+        .replace(")", "")
+    )
+
+word_tokenized_negatif = tokenisasi_kata(dataset_negatif)
+filtered_word_negatif = memfilter(word_tokenized_negatif)
+wordset_negatif = menstem((word_tokenized_negatif))
+count_negatif = len(wordset_negatif)
+print(count_negatif)
