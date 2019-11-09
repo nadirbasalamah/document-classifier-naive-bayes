@@ -84,7 +84,31 @@ def getFreq(dicti, word):
 
     return dicti
 
+def getConditionalProb(wordset, wordset_unique, count, verbs):
+    #TODO: calculate conditional probability for each words
+    sentences = []
+    words = []
+    freqs = []
+    count_words = []
+    conditionalProbs = []
 
+    for i, val in enumerate(wordset):
+        sentences.append(val)
+
+    for i, val in enumerate(sentences):
+        words.append(sentences[i].split())
+    
+    for i, val in enumerate(sentences):    
+        freqs.append(getFreq(dict.fromkeys(wordset_unique, 0), menstem(words[i])))
+        
+    for dic in freqs:
+        for val in dic.values():
+            count_words.append(val)
+    
+    for i, val in enumerate(count_words):
+        conditionalProbs.append((count_words[i] + 1) / (count + verbs))
+        
+    return conditionalProbs
 # ### Tokenisasi
 
 # In[79]:
@@ -201,3 +225,23 @@ filtered_word_negatif = memfilter(word_tokenized_negatif)
 wordset_negatif = menstem((word_tokenized_negatif))
 count_negatif = len(wordset_negatif)
 print(count_negatif)
+
+#menghitung conditional probability pada masing-masing term
+conditionalProbPositif = getConditionalProb(dataset_positif, wordset, count_positif, verbs)
+conditionalProbNegatif = getConditionalProb(dataset_negatif, wordset, count_negatif, verbs)
+
+print("Conditional Probability pada Kategori Positif")
+for i, val in enumerate(conditionalProbPositif):
+    cpp = pd.DataFrame([conditionalProbPositif[i
+    ]])
+cpp = pd.DataFrame(conditionalProbPositif)
+print(cpp)
+print('\n')
+
+print("Conditional Probability pada Kategori Negatif")
+for i, val in enumerate(conditionalProbNegatif):
+    cpn = pd.DataFrame([conditionalProbNegatif[i
+    ]])
+cpn = pd.DataFrame(conditionalProbNegatif)
+print(cpn)
+print('\n')
