@@ -20,7 +20,8 @@ stopwords = stop.get_stop_words()
 
 # In[75]:
 
-data = pd.read_csv("D:\dataset_textmining\dataset.csv", encoding = "ISO-8859-1")
+# data = pd.read_csv("D:\dataset_textmining\dataset.csv", encoding = "ISO-8859-1")
+data = pd.read_csv("E:\Programming\Python\Text Mining\document-classifier-naive-bayes\dataset.csv", encoding = "ISO-8859-1")
 
 
 # ### Get komentar
