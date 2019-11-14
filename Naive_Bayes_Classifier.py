@@ -38,7 +38,7 @@ for i, val in enumerate(desc):
     desc[i] = (
         val.replace(";", "")
         .replace(",", "")
-        .replace(".", "")
+        .replace(".", " ")
         .replace("?", "")
         .replace("-", " ")
         .replace("/", " ")
@@ -84,6 +84,14 @@ def getFreq(dicti, word):
 
     return dicti
 
+def getCountWord(word, freqs):
+    res = 0
+    for i in range(len(freqs) - 1):
+        print(word)
+        res += freqs[word][i]
+    return res
+
+
 def getConditionalProb(wordset, wordset_unique, count, verbs):
     #TODO: calculate conditional probability for each words
     sentences = []
@@ -92,7 +100,7 @@ def getConditionalProb(wordset, wordset_unique, count, verbs):
     count_words = []
     conditionalProbs = []
 
-    for i, val in enumerate(wordset):
+    for i, val in enumerate(sorted(wordset)):
         sentences.append(val)
 
     for i, val in enumerate(sentences):
@@ -100,11 +108,14 @@ def getConditionalProb(wordset, wordset_unique, count, verbs):
     
     for i, val in enumerate(sentences):    
         freqs.append(getFreq(dict.fromkeys(wordset_unique, 0), menstem(words[i])))
-        
-    for dic in freqs:
-        for val in dic.values():
-            count_words.append(val)
     
+    for i, val in enumerate(freqs):
+        tf = pd.DataFrame([freqs[i]])
+        tf = pd.DataFrame(freqs)
+                
+    for val in sorted(wordset_unique):
+        count_words.append(getCountWord(val,tf))
+        
     for i, val in enumerate(count_words):
         conditionalProbs.append((count_words[i] + 1) / (count + verbs))
         
@@ -173,7 +184,15 @@ for i, val in enumerate(freqs):
 tf = pd.DataFrame(freqs)
 print(tf)
 print('\n')
-# print(tf.columns.values)
+
+#def getCountWord3(word, freqs):
+#    res = 0
+#    for i in range(len(freqs) - 1):
+#        res += freqs[word][i]
+#    return res
+#
+#print(getCountWord3("mrtjakarta",tf))
+
 
 
 # ### Menghitung nilai |V| dan jumlah seluruh kata pada kategori positif dan negatif
@@ -181,6 +200,7 @@ print('\n')
 # In[86]:
 
 verbs = len(wordset)
+print(wordset)
 # desc1 = data.loc[:,['Komentar','Hasil Akhir']]
 # print(desc1)
 
@@ -193,7 +213,7 @@ for i, val in enumerate(dataset_positif):
     dataset_positif[i] = (
         val.replace(";", "")
         .replace(",", "")
-        .replace(".", "")
+        .replace(".", " ")
         .replace("?", "")
         .replace("-", " ")
         .replace("/", " ")
@@ -212,7 +232,7 @@ for i, val in enumerate(dataset_negatif):
     dataset_negatif[i] = (
         val.replace(";", "")
         .replace(",", "")
-        .replace(".", "")
+        .replace(".", " ")
         .replace("?", "")
         .replace("-", " ")
         .replace("/", " ")
