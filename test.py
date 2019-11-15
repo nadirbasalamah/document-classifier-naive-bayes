@@ -48,7 +48,7 @@ def getCountWord2(word, freqs):
                 for val in dic.values():
                     count += val
     
-    return count
+    return {word: count}
 
 def getCountWord3(word, freqs):
     test = []
@@ -57,7 +57,7 @@ def getCountWord3(word, freqs):
     return test
 #
 #test = []
-freqs = [{"a" : 1},{"b" : 2},{"c" : 3},{"a" : 5},{"b" : 6}]
+freqs = [{"a" : 1},{"b" : 2},{"c" : 3},{"a" : 5},{"b" : 6},{'00': 9}]
 test_list = [{'gfg' : 1, 'is' : 2, 'good' : 3},{'gfg' : 2}, {'best' : 3, 'gfg' : 4}]
 word = {"a","b","c","d","e"}
 #
@@ -83,4 +83,23 @@ for w in sorted(word):
     test.append(getCountWord2(w,freqs))
     
 print(test)
-print(getCountWord3("a",freqs))
+print(len(test))
+
+#testing testing
+cw = [1,2,3,4,5,6]
+ck = ["a","b","c","d","e","f"]
+coba = dict(zip(ck,cw))
+print(coba)
+haha = {}
+print(haha)
+
+
+
+
+
+
+
+
+
+
+
