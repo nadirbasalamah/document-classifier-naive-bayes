@@ -30,6 +30,10 @@ dataset = data.loc[:, ["Komentar","Hasil Akhir"]]
 df = pd.DataFrame(dataset)
 dataset_positif = df.loc[df["Hasil Akhir"] == "Positif"]["Komentar"].values.tolist()
 dataset_negatif = df.loc[df["Hasil Akhir"] == "Negatif"]["Komentar"].values.tolist()
+
+jumlah_dok_total = len(desc)
+jumlah_dok_positif = len(dataset_positif)
+jumlah_dok_negatif = len(dataset_negatif)
 # ### Menghapus berbagai simbol pada kata
 
 # In[77]:
@@ -109,7 +113,6 @@ def getFreq(dicti, word):
 def getCountWord(word, freqs):
     res = 0
     for i in range(len(freqs) - 1):
-        print(word)
         res += freqs[word][i]
     return res
 
@@ -232,6 +235,13 @@ print("Jumlah seluruh kata pada kategori positif : " + str(count_positif))
 count_negatif = len(wordset_negatif)
 print("Jumlah seluruh kata pada kategori negatif : " + str(count_negatif))
 
+#Prior Probability pada kategori positif
+pp_positif = jumlah_dok_positif / jumlah_dok_total
+print("Prior Probability pada kategori positif : " + str(pp_positif))
+#Prior Probability pada kategori negatif
+pp_negatif = jumlah_dok_negatif / jumlah_dok_total
+print("Prior Probability pada kategori negatif : " + str(pp_negatif))
+
 #menghitung conditional probability pada masing-masing term
 conditionalProbPositif = getConditionalProb(dataset_positif, wordset, count_positif, verbs)
 conditionalProbNegatif = getConditionalProb(dataset_negatif, wordset, count_negatif, verbs)
@@ -245,3 +255,24 @@ print("Conditional Probability pada Kategori Negatif")
 cpn = pd.DataFrame.from_dict(conditionalProbNegatif, orient='index')
 print(cpn)
 print('\n')
+#print(cpn[0]["berisik"])
+
+#Contoh data testing
+test_data = ["mrtjakarta","sangat","nyaman","tapi","berisik"]
+res1 = pp_positif
+res2 = pp_negatif
+word_data = [] 
+for val in test_data:
+    if val in wordset:
+        word_data.append(val)
+
+for val in word_data:
+    res1 *= cpp[0][val]
+    res2 *= cpn[0][val]
+
+    
+if(res1 > res2):
+    print("Positif")
+else:
+    print("Negatif")
+    
