@@ -20,7 +20,10 @@ stopwords = stop.get_stop_words()
 
 # In[75]:
 
+<<<<<<< Updated upstream
 # data = pd.read_csv("D:\dataset_textmining\dataset.csv", encoding = "ISO-8859-1")
+=======
+>>>>>>> Stashed changes
 data = pd.read_csv("E:\Programming\Python\Text Mining\document-classifier-naive-bayes\dataset.csv", encoding = "ISO-8859-1")
 
 
@@ -39,7 +42,7 @@ for i, val in enumerate(desc):
     desc[i] = (
         val.replace(";", "")
         .replace(",", "")
-        .replace(".", "")
+        .replace(".", " ")
         .replace("?", "")
         .replace("-", " ")
         .replace("/", " ")
@@ -166,7 +169,7 @@ for i, val in enumerate(sentences):
 # ### TF Tables
 
 # In[88]:
-
+# print(freqs)
 print("TF")
 for i, val in enumerate(freqs):
     tf = pd.DataFrame([freqs[i
@@ -246,3 +249,54 @@ for i, val in enumerate(conditionalProbNegatif):
 cpn = pd.DataFrame(conditionalProbNegatif)
 print(cpn)
 print('\n')
+
+
+## Tambahin Jumlah frekuensi per dokumennya
+#print(tf)
+tabel_baru = tf
+total = [] #list baru buat simpan total per dokumennya
+#for x in wordset:
+#    print(x)
+
+# Misalkan
+# kelas_Pos = {0,1,2,3}
+
+# for y,z in tf.items():
+#     a = 0
+#     for i,j in z.items():
+#         a += j
+# #        print(j)
+#     total.append(a)   
+
+# total = []
+# c = 0
+# for x,y in tf.items(): # x = wordset, y = frequensi per wordset
+#     a = 0
+#     for i,j in y.items() : # i = indeks, j = frequensi
+#         if(i == 0): # Cari jumlah frekuensi dari dokumen 0
+#             a += j
+
+#     total.append(a)
+#     c += 1
+
+# totaldf = pd.DataFrame(total)
+# print()
+
+# print(tf["msk"][0]) --> Buat print term "msk" pada dokumen 0
+        
+# https://www.geeksforgeeks.org/python-pandas-dataframe-append/
+# total_df = pd.DataFrame({"Total", total})
+#new_tf = tf.append(total_df)
+# print(new_tf)
+
+
+
+# https://www.tutorialspoint.com/python_data_structure/python_2darray.htm
+tabel_baru = tf
+print(tabel_baru)
+
+
+
+for i, val in enumerate(freqs):
+    for x,y in val.items():
+        print(x)
