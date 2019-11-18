@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Nov 18 12:27:47 2019
+
+@author: Nadir Basalamah
+"""
+
 
 # coding: utf-8
 
@@ -18,7 +25,8 @@ stopwords = stop.get_stop_words()
 
 # In[75]:
 
-data = pd.read_csv("D:\dataset_textmining\dataset.csv", encoding = "ISO-8859-1")
+data = pd.read_csv("D:\dataset_textmining\dataset4.csv", encoding = "ISO-8859-1")
+dataset_uji = pd.read_csv("D:\dataset_textmining\datauji4.csv", encoding = "ISO-8859-1")
 
 
 # ### Get komentar
@@ -27,13 +35,23 @@ data = pd.read_csv("D:\dataset_textmining\dataset.csv", encoding = "ISO-8859-1")
 
 desc = data.loc[:,'Komentar']
 dataset = data.loc[:, ["Komentar","Hasil Akhir"]]
+data_uji = dataset_uji.loc[:,'Komentar']
+
 df = pd.DataFrame(dataset)
+datalist = pd.DataFrame(desc)    
+testdata = pd.DataFrame(data_uji)
+
+list_data = datalist.values.tolist()
+list_data_uji = testdata.values.tolist()
+
 dataset_positif = df.loc[df["Hasil Akhir"] == "Positif"]["Komentar"].values.tolist()
 dataset_negatif = df.loc[df["Hasil Akhir"] == "Negatif"]["Komentar"].values.tolist()
 
 jumlah_dok_total = len(desc)
 jumlah_dok_positif = len(dataset_positif)
 jumlah_dok_negatif = len(dataset_negatif)
+
+
 # ### Menghapus berbagai simbol pada kata
 
 # In[77]:
@@ -163,6 +181,27 @@ def getConditionalProb(wordset, wordset_unique, count, verbs):
     result = dict(zip(sorted_wordset,conditionalProbs))
         
     return result
+
+def preprocessing(doc):
+    for i in range(len(doc) - 1):
+        doc[i] = str(doc[i])
+    for i, val in enumerate(doc):
+        doc[i] = (
+        val.replace(";", "")
+        .replace(",", "")
+        .replace(".", " ")
+        .replace("?", "")
+        .replace("-", " ")
+        .replace("/", " ")
+        .replace("(", "")
+        .replace(")", "")
+        )
+    word_tokenized = tokenisasi_kata(doc)
+    filtered = memfilter(word_tokenized)
+    wordset = set(menstem((filtered)))
+    
+    return wordset
+
 # ### Tokenisasi
 
 # In[79]:
@@ -255,23 +294,31 @@ print("Conditional Probability pada Kategori Negatif")
 cpn = pd.DataFrame.from_dict(conditionalProbNegatif, orient='index')
 print(cpn)
 print('\n')
-#print(cpn[0]["berisik"])
 
-#Contoh data testing
-test_data = ["mrtjakarta","sangat","nyaman","tapi","berisik"]
+#Data Testing
+test_data = []
+test_results = []
 res1 = pp_positif
 res2 = pp_negatif
-word_data = [] 
-for val in test_data:
-    if val in wordset:
-        word_data.append(val)
 
-for val in word_data:
-    res1 *= cpp[0][val]
-    res2 *= cpn[0][val]
+for i in range(len(list_data_uji)):
+    test_data.append(preprocessing(list_data_uji[i]))
 
+for i in range(len(test_data)):
+    word_data = [] 
+    for val in test_data[i]:
+        if val in wordset:
+            word_data.append(val)
+    for val in word_data:
+        res1 *= cpp[0][val]
+        res2 *= cpn[0][val]
+    if(res1 > res2):
+        test_results.append("Positif")
+    else:
+        test_results.append("Negatif")
+    print(res1)
+    print(res2)
+
+
+print(test_results)
     
-if(res1 > res2):
-    print("Positif")
-else:
-    print("Negatif")
