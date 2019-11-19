@@ -296,8 +296,10 @@ print(cpn)
 print('\n')
 
 #Data Testing
+origin_data = ["Positif","Positif","Positif","Negatif","Negatif","Negatif"]
 test_data = []
 test_results = []
+n_data = 0
 res1 = pp_positif
 res2 = pp_negatif
 
@@ -319,6 +321,10 @@ for i in range(len(test_data)):
     print(res1)
     print(res2)
 
+for i in range(len(test_results)):
+    if(test_results[i] == origin_data[i]):
+        n_data += 1
 
 print(test_results)
-    
+accuracy = round((n_data / len(test_results)) * 100,2) 
+print("Accuracy (%) : " + str(accuracy))    
