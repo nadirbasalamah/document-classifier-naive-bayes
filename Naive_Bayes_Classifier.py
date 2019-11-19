@@ -21,8 +21,12 @@ stopwords = stop.get_stop_words()
 # In[75]:
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 # data = pd.read_csv("D:\dataset_textmining\dataset.csv", encoding = "ISO-8859-1")
 =======
+>>>>>>> Stashed changes
+=======
+# data = pd.read_csv("D:\dataset_textmining\dataset.csv", encoding = "ISO-8859-1")
 >>>>>>> Stashed changes
 data = pd.read_csv("E:\Programming\Python\Text Mining\document-classifier-naive-bayes\dataset.csv", encoding = "ISO-8859-1")
 
@@ -34,6 +38,12 @@ data = pd.read_csv("E:\Programming\Python\Text Mining\document-classifier-naive-
 desc = data.loc[:,'Komentar']
 
 
+<<<<<<< Updated upstream
+=======
+jumlah_dok_total = len(desc)
+jumlah_dok_positif = len(dataset_positif)
+jumlah_dok_negatif = len(dataset_negatif)
+>>>>>>> Stashed changes
 # ### Menghapus berbagai simbol pada kata
 
 # In[77]:
@@ -78,6 +88,7 @@ def menstem(doc1):
         stemming.append(stemmer.stem(i))
 
     stemming = list((stemming))
+    print(stemming)
     return stemming
 
 def getFreq(dicti, word):
@@ -88,6 +99,32 @@ def getFreq(dicti, word):
 
     return dicti
 
+<<<<<<< Updated upstream
+=======
+def getCountWord(word, freqs):
+    res = 0
+    for i in range(len(freqs) - 1):
+        res += freqs[word][i]
+    return res
+
+
+def getAllFreq(doc):
+    sentences = []
+    words = []
+    freqs = []
+
+    for i, val in enumerate(doc):
+        sentences.append(val)
+
+    for i, val in enumerate(sentences):
+        words.append(sentences[i].split())
+    
+    for i, val in enumerate(sentences):    
+        freqs.append(getFreq(dict.fromkeys(wordset, 0), menstem(words[i])))
+
+    return freqs
+
+>>>>>>> Stashed changes
 def getConditionalProb(wordset, wordset_unique, count, verbs):
     #TODO: calculate conditional probability for each words
     sentences = []
@@ -112,7 +149,12 @@ def getConditionalProb(wordset, wordset_unique, count, verbs):
     for i, val in enumerate(count_words):
         conditionalProbs.append((count_words[i] + 1) / (count + verbs))
         
+<<<<<<< Updated upstream
     return conditionalProbs
+=======
+    return result
+
+>>>>>>> Stashed changes
 # ### Tokenisasi
 
 # In[79]:
@@ -134,6 +176,12 @@ print("filtering : ", memfilter(word_tokenized), "\n")
 
 wordset = set(menstem((word_tokenized)))
 print("stemming : ", wordset, "\n")
+<<<<<<< Updated upstream
+=======
+wordset_positif = menstem((word_tokenized_positif))
+wordset_negatif = menstem((word_tokenized_negatif))
+
+>>>>>>> Stashed changes
 
 
 # In[82]:
@@ -258,6 +306,7 @@ total = [] #list baru buat simpan total per dokumennya
 #for x in wordset:
 #    print(x)
 
+<<<<<<< Updated upstream
 # Misalkan
 # kelas_Pos = {0,1,2,3}
 
@@ -300,3 +349,14 @@ print(tabel_baru)
 for i, val in enumerate(freqs):
     for x,y in val.items():
         print(x)
+=======
+    
+if(res1 > res2):
+    print("Positif")
+else:
+    print("Negatif")
+    
+
+
+# Debug
+>>>>>>> Stashed changes
